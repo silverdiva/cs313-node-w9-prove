@@ -24,7 +24,7 @@ app.get("public/", function (req, res) {
 
 
 app.use(express.static("views"));
-app.set("views/", __dirname + "views/");
+app.set("views", __dirname + "views/");
 app.get("views/", function (req, res) {
 	res.render("views/");
 });
@@ -33,7 +33,7 @@ app.get("views/", function (req, res) {
 app.use(express.static("pages"));
 app.set("pages/", __dirname + "pages/");
 app.get("pages/", function (req, res) {	
-	res.render("pages/form.ejs");
+	res.render("pages/form");
 });
 
 
