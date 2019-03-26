@@ -1,41 +1,17 @@
-/*const connectionString = process.env.DATABASE_URL || "postgres://kjsbvguboglxgs:6a3066bdf05cdb486f319d6772b489b2f0994938e76b0ff5f6297a96ba96865f@ec2-50-19-109-120.compute-1.amazonaws.com:5432/dfshisk0pfq53qssl=true";
-
-const pool = new Pool({connectionString: connectionString});*/
-
-
-const express = require("express");
-const path = require("path");
-require('dotenv').config();
-
+var express = require("express");
 var app = express();
-
 var url = require('url');
-var fs   = require('fs');
-
-var neededstats = [];
 
 app.set("view engine", "ejs");
 
 app.use(express.static("public"));
-app.set("public", "public");
-app.get("public/", function (req, res) {
-	res.render("public/");
-});
+app.set("public", __dirname + "/public");
+app.set("views", "views");
+app.set("views", __dirname + "/views");
 
 
-app.use(express.static("views"));
-app.set("views/", __dirname + "views/");
-app.get("views/", function (req, res) {
-	res.render("views/");
-});
 
-
-app.use(express.static("pages"));
-app.set("pages/", __dirname + "pages/");
-app.get("pages/", function (req, res) {	
-	res.render("pages/form.ejs");
-});
-
+app.set("pages", __dirname + "pages");
 
 app.get("/", function (req, res) {
 	//console.log("Received a request for /");
@@ -61,11 +37,12 @@ app.get("/home", function (req, res) {
 });
 
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(function() {
-	console.log("Server listening on port " + PORT);
+app.get("pages", function (req, res) {
+		//__dirname + "views/pages");
+		
+	res.render("views/pages/form.ejs");
 });
+
 
 
 //calculates rates based on uder input
@@ -86,6 +63,7 @@ function handleRate(req, res) {
 	lookupRate(response, mailType, weight);
 }
 
+	
 
 function lookupRate(response, mailType, weight) {
 	mailType = mailType.toLowerCase();
@@ -94,29 +72,25 @@ function lookupRate(response, mailType, weight) {
 
 	if (mailType == "stamped" && weight <= 3.5) {
 		if (weight <= 1) {
-			result = 0.55;
+			result = 0.49;
 		} else if (weight <= 2) {
-			result = 0.870;
+			result = 0.7;
 		} else if (weight <= 3) {
-			result = .85;
-		} else if (weight <= 3.5){
-			result = 1.0;
+			result = 0.91;
 		} else {
-			console.log("There is a weight limit of 3.5oz for First Class stampled-letter mailing. Your selection is too heavy for sending a First Class stamped letter via U.S.P.S.");
+			result = 1.12;
 		}
 	} else if (mailType == "metered" && weight <= 3.5) {
 		if (weight <= 1) {
-			result = 0.50;
+			result = 0.46;
 		} else if (weight <= 2) {
-			result = 0.65;
+			result = 0.67;
 		} else if (weight <= 3) {
-			result = 0.80;
-		} else if (weight <= 3.5){
-			result = .95;
+			result = 0.88;
 		} else {
-			console.log("There is a weight limit of 3.5oz for First Class metered mailing. Your selection is too heavy for sending a First Class metered-mail letter via U.S.P.S.");
-		}
-	} else if (mailType == "package" && weight <=13) {
+			result = 1.09;
+		}		
+	} else if (mailType == "package") {
 		if (weight <= 4) {
 			result = 3;
 		} else if (weight <= 5) {
@@ -137,8 +111,6 @@ function lookupRate(response, mailType, weight) {
 			result = 4.36;
 		} else if (weight <= 13) {
 			result = 4.53;
-		} else {
-			console.log("There is a weight limit of 13oz for First Class parcel/package mailing. Your selection is too heavy for sending a First Class parcel via U.S.P.S.");
 		}
 	} else if (mailType == "large" || weight > 3.5) {
 		if (weight <= 1) {
@@ -167,18 +139,17 @@ function lookupRate(response, mailType, weight) {
 			result = 3.29;
 		} else if (weight <= 13) {
 			result = 3.5;
-		} else {
-			console.log("There is a weight limit of 13oz for First Class large envelope mailing. Your selection is too heavy for sending a First Class large-envelope via  U.S.P.S mail.");
 		}
 	} else {
-		console.log("Uh Oh, somwthing went wrong, please try again.");
+		// Something unexpected happened
 		result = 200;
 	}
 
 	var params = {mailType: mailType, weight: weight, result: result};
 
-	response.render("pages/result", params);
-}
+	response.render('pages/result', params);
+
+
 
 
 
@@ -186,12 +157,11 @@ function lookupRate(response, mailType, weight) {
 
 //could not get this to work, not sure why yet. need to dig further
 
-	/*calculates the U.S. postal rate for package mailing
-		app.get("/getRate", function (req, res) {
-		var result = calculateRate()
-		response.render("pages/results.ejs", result);
-		});
-		*/
+	//calculates the U.S. postal rate for package mailing
+		//app.get("/getRate", function (req, res) {
+		//var result = calculateRate()
+		//response.render("pages/results.ejs", result);
+		//});
 
 
 
