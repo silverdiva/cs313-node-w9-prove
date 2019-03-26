@@ -14,7 +14,7 @@ var url = require('url');
 var fs   = require('fs');
 
 var index = require('./views/pages/index');
-var form = require('./views/pages/form');
+//var form = require('./views/pages/form');
 
 
 app.set("public", path.join(__dirname, "public"))
@@ -35,7 +35,7 @@ app.get("views/", function (req, res) {
 app.set("pages", path.join(__dirname, "pages"))
 app.use(express.static(__dirname + "/pages"));
 app.get("pages", function (req, res) {	
-	res.render("pages/form");
+	res.render("pages");
 });
 
 
