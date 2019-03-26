@@ -3,46 +3,43 @@
 const pool = new Pool({connectionString: connectionString});*/
 
 
-const express = require("express");
+var express = require("express");
 const path = require("path");
 require('dotenv').config();
 
 var app = express();
+app.set("view engine", "ejs");
 
 var url = require('url');
 var fs   = require('fs');
 
-var neededstats = [];
+var index = require('./views/pages/index');
+var form = require('./views/pages/form');
 
-app.set("view engine", "ejs");
 
 app.use(express.static("public"));
-app.set("public", "public");
+app.set("public", path.join(__dirname, "public"));
 app.get("public/", function (req, res) {
 	res.render("public/");
 });
 
 
 app.use(express.static("views"));
-app.set("views", __dirname + "views/");
+app.set("views", path.join(__dirname, "views"));
 app.get("views/", function (req, res) {
 	res.render("views/");
 });
 
 
 app.use(express.static("pages"));
-app.set("pages/", __dirname + "pages/");
-app.get("pages/", function (req, res) {	
+app.set("pages", __dirname + "pages/");
+app.set("pages", path.join(__dirname, "pages"));
+app.get("pages", function (req, res) {	
 	res.render("pages/form");
 });
 
 
 app.get("/", function (req, res) {
-	//console.log("Received a request for /");
-
-	//res.write("This is the root.");
-	//res.end();
-
 	res.render("pages/index");
 });
 
