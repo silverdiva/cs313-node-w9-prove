@@ -1,16 +1,13 @@
 var express = require("express");
 
 var app = express();
-app.use(express.static(path.join(__dirname, 'public')))
-app.set('views', path.join(__dirname, 'views'))
-app.get('/', (req, res) => res.render('pages/index'))
-
 
 app.use(express.static("public"));
 
 app.set("views", "views");
 app.set("view engine", "ejs");
 app.set('views', __dirname + '/views');
+app.set('public', __dirname + '/public');
 
 app.get("/", function (req, res) {
 	//console.log("Received a request for /");
@@ -18,7 +15,7 @@ app.get("/", function (req, res) {
 	//res.write("This is the root.");
 	//res.end();
 
-	response.render('pages/form.ejs');
+	response.render('pages/index');
 });
 
 app.get("/home", function (req, res) {
@@ -49,7 +46,7 @@ function getCurrentLoggedInUserAccount() {
 }
 
 //calculates the U.S. postal rate for package mailing
-app.get('/getRate', function (request, response) {
+app.get("/getRate", function (request, response) {
 	var result = calculateRate(request, response);
 	response.render('pages/results.ejs', result);
 });
