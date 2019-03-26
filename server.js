@@ -8,7 +8,7 @@ app.set("views", "views");
 app.set("view engine", "ejs");
 app.set('views', __dirname + '/views');
 app.set('public', __dirname + '/public');
-app.set('views/pages', __dirname + 'views/pages');
+app.set('views/pages/', __dirname + 'views/pages/');
 
 app.get("/", function (req, res) {
 	//console.log("Received a request for /");
@@ -16,7 +16,7 @@ app.get("/", function (req, res) {
 	//res.write("This is the root.");
 	//res.end();
 
-	response.render('pages/index');
+	res.render("pages/index");
 });
 
 app.get("/home", function (req, res) {
@@ -32,6 +32,13 @@ app.get("/home", function (req, res) {
 
 	res.render("home", params);
 });
+
+
+app.get("views/pages", function (req, res) {
+		//__dirname + "views/pages");
+		
+		res.render("view/pages/form.ejs");
+}
 
 app.listen(5000, function () {
 	console.log("The server is up and listening on port 5000");
