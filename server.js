@@ -8,6 +8,7 @@ app.set("views", "views");
 app.set("view engine", "ejs");
 app.set('views', __dirname + '/views');
 app.set('public', __dirname + '/public');
+app.set('views/pages', __dirname + 'views/pages');
 
 app.get("/", function (req, res) {
 	//console.log("Received a request for /");
