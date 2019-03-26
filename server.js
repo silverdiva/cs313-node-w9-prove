@@ -6,9 +6,9 @@ app.use(express.static("public"));
 
 app.set("views", "views");
 app.set("view engine", "ejs");
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + "/views");
 app.set('public', __dirname + '/public');
-app.set('views/pages/', __dirname + 'views/pages/');
+app.set("views/pages", __dirname + "views/pages");
 
 app.get("/", function (req, res) {
 	//console.log("Received a request for /");
@@ -37,7 +37,7 @@ app.get("/home", function (req, res) {
 app.get("views/pages", function (req, res) {
 		//__dirname + "views/pages");
 		
-		res.render("view/pages/form.ejs");
+		res.render("views/pages/form.ejs");
 }
 
 app.listen(5000, function () {
