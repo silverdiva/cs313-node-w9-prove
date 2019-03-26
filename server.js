@@ -8,7 +8,7 @@ app.set("views", "views");
 app.set("view engine", "ejs");
 app.set('views', __dirname + "/views");
 app.set('public', __dirname + '/public');
-app.set("views/pages", __dirname + "views/pages");
+app.set("pages", __dirname + "pages");
 
 app.get("/", function (req, res) {
 	//console.log("Received a request for /");
@@ -34,11 +34,19 @@ app.get("/home", function (req, res) {
 });
 
 
-app.get("views/pages", function (req, res) {
+app.get("pages", function (req, res) {
 		//__dirname + "views/pages");
 		
-		res.render("views/pages/form.ejs");
+	res.render("views/pages/form.ejs");
 }
+		
+		
+app.get("/getRate", function(request, response) {
+  	var result = calculateRate(req, res);
+  	
+	response.render("pages/results.ejs", result);
+
+});
 
 app.listen(5000, function () {
 	console.log("The server is up and listening on port 5000");
@@ -54,12 +62,12 @@ function getCurrentLoggedInUserAccount() {
 }
 
 //calculates the U.S. postal rate for package mailing
-app.get("/getRate", function (request, response) {
-	var result = calculateRate(request, response);
+app.get("/getRate", function (req, res) {
+	var result = calculateRate();
 	response.render('pages/results.ejs', result);
 });
 
-function calculateRate(request, response) {
+function calculateRate(req, res) {
 	var weight = request.query.weight;
 	var postalType = request.query.postalType;
 	var cost = 0.00;
