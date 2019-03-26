@@ -17,23 +17,23 @@ var index = require('./views/pages/index');
 var form = require('./views/pages/form');
 
 
-app.use(express.static("public"));
-app.set("public", path.join(__dirname, "public"));
+app.set("public", path.join(__dirname, "public"))
+app.use(express.static(__dirname + "/public"));
 app.get("public/", function (req, res) {
 	res.render("public/");
 });
 
 
-app.use(express.static("views"));
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "views"))
+app.use(express.static(__dirname + "/views"));
 app.get("views/", function (req, res) {
 	res.render("views/");
 });
 
 
-app.use(express.static("pages"));
-app.set("pages", __dirname + "pages/");
-app.set("pages", path.join(__dirname, "pages"));
+
+app.set("pages", path.join(__dirname, "pages"))
+app.use(express.static(__dirname + "/pages"));
 app.get("pages", function (req, res) {	
 	res.render("pages/form");
 });
